@@ -57,7 +57,7 @@ const deploy = async (args, owner) => {
 
 const main = async () => {
   const projectId = "0x02"; // Juicebox project https://juicebox.money/#/p/tiles
-  const terminalDirectory = "0xd569D3CCE55b71a8a3f3C418c329A66e5f714431";
+  const terminalDirectory = "0x46C9999A2EDCD5aA177ed7E8af90c68b7d75Ba46";
   const baseURI = "https://api.tiles.art/metadata/";
   const owner = "0x63A2368F4B509438ca90186cb1C15156713D5834";
 
