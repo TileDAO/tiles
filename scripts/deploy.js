@@ -2,6 +2,7 @@
 const { ethers } = require("hardhat");
 const chalk = require("chalk");
 const fs = require("fs");
+const { BigNumber } = require("ethers");
 
 const network = process.env.HARDHAT_NETWORK;
 
@@ -12,7 +13,7 @@ const deploy = async (args, owner) => {
 
   console.log("Deploying with args:", args);
 
-  const factory = await ethers.getContractFactory("Tiles");
+  const factory = await ethers.getContractFactory("Dreamland");
 
   const deployed = await factory.deploy(...args, {
     gasLimit: 6000000,
@@ -26,7 +27,7 @@ const deploy = async (args, owner) => {
     gasLimit: 6000000,
   });
 
-  const contractName = "Tiles";
+  const contractName = "Dreamland";
 
   const contract = JSON.parse(
     fs
@@ -55,13 +56,38 @@ const deploy = async (args, owner) => {
   return deployed;
 };
 
+const projectIds = {
+  mainnet: 2, // Juicebox project https://juicebox.money/#/p/tiles
+  rinkeby: 423, // Juicebox project https://rinkeby.juicebox.money/#/p/drm
+};
+
+const terminalDirectories = {
+  mainnet: "0x46C9999A2EDCD5aA177ed7E8af90c68b7d75Ba46",
+  rinkeby: "0x88d8c9E98E6EdE75252c2473abc9724965fe7474",
+};
+
+const tilesAddresses = {
+  mainnet: "0x64931F06d3266049Bf0195346973762E6996D764",
+  rinkeby: "0x64931F06d3266049Bf0195346973762E6996D764",
+};
+
 const main = async () => {
-  const projectId = "0x02"; // Juicebox project https://juicebox.money/#/p/tiles
-  const terminalDirectory = "0x46C9999A2EDCD5aA177ed7E8af90c68b7d75Ba46";
-  const baseURI = "https://api.tiles.art/metadata/";
+  const network = process.env.HARDHAT_NETWORK;
+  const projectId = projectIds[network];
+  const terminalDirectory = terminalDirectories[network];
+  const tilesAddress = tilesAddresses[network];
+  const baseURI = "https://dreamland.tiles.art/";
   const owner = "0x63A2368F4B509438ca90186cb1C15156713D5834";
 
-  await deploy([projectId, terminalDirectory, baseURI], owner);
+  await deploy(
+    [
+      BigNumber.from(projectId).toHexString(),
+      terminalDirectory,
+      tilesAddress,
+      baseURI,
+    ],
+    owner
+  );
 
   console.log(
     "⚡️ All contract artifacts saved to:",

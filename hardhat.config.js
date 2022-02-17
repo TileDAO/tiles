@@ -44,10 +44,14 @@ module.exports = {
         mnemonic: mnemonic(),
       },
     },
+    rinkeby: {
+      url: "https://rinkeby.infura.io/v3/" + infuraId,
+      accounts: [deployerPk()],
+    },
     mainnet: {
       url: "https://mainnet.infura.io/v3/" + infuraId,
-      accounts: [ deployerPk() ],
-      gasPrice: 42000000000
+      accounts: [deployerPk()],
+      gasPrice: 42000000000,
     },
   },
   solidity: {
